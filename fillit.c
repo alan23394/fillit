@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/16 11:33:03 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/16 15:33:41 by rreedy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "fillit.h"
 #include <fcntl.h>
 
-t_piece	*new_piece(char ch, short bits)
+t_mino	*new_mino(char ch, short bits)
 {
-	t_piece	*ret;
+	t_mino	*newmino;
 
-	ret = (t_piece *)ft_memalloc(sizeof(t_piece));
-	if (!ret)
+	newmino = (t_mino *)ft_memalloc(sizeof(t_mino));
+	if (!newmino)
 		return (0);
-	ret->c = ch;
-	ret->piece = bits;
-	return (ret);
+	newmino->c = ch;
+	newmino->mino = bits;
+	return (newmino);
 }
 
 void	print_bits(int c, int nb)
@@ -35,24 +35,15 @@ void	print_bits(int c, int nb)
 		ft_putchar(' ');
 }
 
-short	align(short piece)
-{
-	while (!(piece & 0xF000))
-		piece <<= 4;
-	while (!(piece & 0x8888))
-		piece <<= 1;
-	return (piece);
-}
-
-int		validate(short piece)
+void	print_numbers(short mino)
 {
 	ft_putstr("mino numbers:  ");
 	int i;
 
 	i = 0;
-	while (i < 14)
+	while (i <= 16)
 	{
-		if ((0x8000 >> i) & piece)
+		if ((0x8000 >> i) & mino)
 		{
 			ft_putnbr(i + 1);
 			ft_putstr(", ");
@@ -60,43 +51,51 @@ int		validate(short piece)
 		++i;
 	}
 	ft_putendl("\b\b");
-	return (1);
 }
 
-short	conv_piece(char *buf)
+short	validate(short mino)
 {
-	char	*cur;
-	int		count;
+	while (!(mino & 0xF000))
+		mino = mino << 4;
+	while (!(mino & 0x8888))
+		mino = mino << 1;
+	if ((mino & 0xE000) == 0xE000)
+		return ((mino & 0x1E00) ? mino : 0);
+	if ((mino & 0x8000) == 0x8000)
+		return ((mino & 0x4448) ? mino : 0);
+	if ((mino & 0x4600) == 0x4600)
+		return ((mino & 0xA2C0) ? mino : 0);
+	if ((mino & 0x8400) == 0x8400 && !(mino ^ 0x8640))
+		return ((mino & 0x31BF) ? 0 : mino);
+	return ((mino == 0x44C0 || mino == 0x2E00) ? mino : 0);
+}
+
+short	get_mino(char *buf)
+{
+	short	mino;
 	int		i;
-	short	ret;
+	int		count;
 
-	cur = buf;
-	count = 0;
+	mino = 0;
 	i = 0;
-	ret = 0;
-	while (*cur && count <= 4)
+	count = 0;
+	while (buf[i])
 	{
-		if (*cur == '#' && count < 4 && i++ < 4)
-		{
-			ret = ret | (1 << (15 - ((cur - buf) - ((cur - buf)/5))));
-			++count;
+		//ft_putchar(buf[i]);
+		ft_putnbr(i);
+		ft_putchar(',');
+		if (buf[i] == '#' && ++count)
+		{	
+			mino = mino | (1 << (15 - i - (i/5)));
 		}
-		else if (*cur == '.' && count < 4)
-			++count;
-		else if (*cur == '\n' && count == 4)
-			count = 0;
-		else
+		else if (buf[i] != '.' && buf[i] != '\n')
 			return (0);
-		++cur;
+		else if (buf[i] == '\n' && ((i + 1) % 5 != 0))
+			return (0);
+		++i;
 	}
-	if (i != 4)
-		return (0);
-	return (ret);
+	return ((count != 4 || i != 20) ? 0 : validate(mino));
 }
-
-short	get_piece(char *buf)
-{
-	short	ret;
 
 	/*
 	while (*cur && count <= 4)
@@ -144,16 +143,3 @@ short	get_piece(char *buf)
 		++cur;
 	}
 	*/
-	ret = conv_piece(buf);
-	if (!ret)
-		return (0);
-	ret = align(ret);
-	if (!validate(ret))
-		return (0);
-	/*
-	ret = validate(ret)
-	if (!ret)
-		return (0);
-	*/
-	return (ret);
-}
