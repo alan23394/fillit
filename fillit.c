@@ -6,18 +6,13 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/12 18:06:34 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/16 11:33:03 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "fillit.h"
 #include <fcntl.h>
-
-void	print_usage()
-{
-	ft_putendl("usage: ./fillit fillit_file");
-}
 
 t_piece	*new_piece(char ch, short bits)
 {
@@ -28,7 +23,6 @@ t_piece	*new_piece(char ch, short bits)
 		return (0);
 	ret->c = ch;
 	ret->piece = bits;
-	ret->next = 0;
 	return (ret);
 }
 
@@ -43,71 +37,67 @@ void	print_bits(int c, int nb)
 
 short	align(short piece)
 {
-	int shift;
-
-	shift = 0;
-	while (!((piece << shift) & 0xF000))
-		shift += 4;
-	while (!((piece << shift) & 0x8888))
-		shift += 1;
-	return ((short)shift);
+	while (!(piece & 0xF000))
+		piece <<= 4;
+	while (!(piece & 0x8888))
+		piece <<= 1;
+	return (piece);
 }
 
-int		validate_mino(int *mino)
+int		validate(short piece)
 {
 	ft_putstr("mino numbers:  ");
 	int i;
 
 	i = 0;
-	while (i < 4)
+	while (i < 14)
 	{
-		ft_putnbr(*mino);
-		ft_putstr(", ");
-		++mino;
+		if ((0x8000 >> i) & piece)
+		{
+			ft_putnbr(i + 1);
+			ft_putstr(", ");
+		}
 		++i;
 	}
 	ft_putendl("\b\b");
 	return (1);
 }
 
-short	conv_piece(char *buf, int coords[])
+short	conv_piece(char *buf)
 {
 	char	*cur;
-	int		i;
 	int		count;
+	int		i;
+	short	ret;
 
 	cur = buf;
-	i = 0;
 	count = 0;
+	i = 0;
+	ret = 0;
 	while (*cur && count <= 4)
 	{
-		if (*cur == '#' && count < 4 && i < 4)
+		if (*cur == '#' && count < 4 && i++ < 4)
 		{
 			ret = ret | (1 << (15 - ((cur - buf) - ((cur - buf)/5))));
-			coords[i] = (1 + (cur - buf) - (cur - buf)/5);
-			i++;
-			count++;
+			++count;
 		}
 		else if (*cur == '.' && count < 4)
-			count++;
+			++count;
 		else if (*cur == '\n' && count == 4)
 			count = 0;
 		else
 			return (0);
 		++cur;
 	}
+	if (i != 4)
+		return (0);
 	return (ret);
 }
 
 short	get_piece(char *buf)
 {
-	int		coords[4];
-	int		*p_coords;
-	int		i;
 	short	ret;
 
-	i = 0;
-	ret = conv_piece(buf, coords);
 	/*
 	while (*cur && count <= 4)
 	{
@@ -154,13 +144,16 @@ short	get_piece(char *buf)
 		++cur;
 	}
 	*/
-	if (i != 4)
+	ret = conv_piece(buf);
+	if (!ret)
 		return (0);
-	while (i--)
-		coords[i] -= align(ret);
-	ret <<= align(ret);
-	p_coords = coords;
-	if (!validate_mino(p_coords))
+	ret = align(ret);
+	if (!validate(ret))
 		return (0);
+	/*
+	ret = validate(ret)
+	if (!ret)
+		return (0);
+	*/
 	return (ret);
 }
