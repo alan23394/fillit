@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/16 16:11:26 by rreedy           ###   ########.fr       */
+/*   Updated: 2018/06/16 16:21:16 by rreedy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	print_numbers(short mino)
 
 short	validate(short mino)
 {
-	print_bits(mino, 16);
 	while (!(mino & 0xF000))
 		mino = mino << 4;
 	while (!(mino & 0x8888))
@@ -83,7 +82,7 @@ short	get_mino(char *buf)
 	{
 		if (buf[i] == '#' && ++count)
 		{	
-			mino = mino | (1 << (15 - i - (i/5)));
+			mino = mino | (1 << (15 - (i - (i/5))));
 		}
 		else if (buf[i] != '.' && buf[i] != '\n')
 			return (0);
@@ -91,6 +90,5 @@ short	get_mino(char *buf)
 			return (0);
 		++i;
 	}
-	ft_putstr("  [");
 	return ((count != 4 || i != 20) ? 0 : validate(mino));
 }

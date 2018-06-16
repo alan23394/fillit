@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/16 16:11:26 by rreedy           ###   ########.fr       */
+/*   Updated: 2018/06/16 16:21:36 by rreedy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int		main(int argc, char **argv)
 	{
 		buf[MINO_SIZE - 1] = '\0';
 		bits = get_mino(buf);
-		print_numbers(bits);
+		print_bits(bits, 16);
+		ft_putchar('\n');
 		count++;
 		if (!bits || count > 26)
 		{
