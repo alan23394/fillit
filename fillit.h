@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 16:21:16 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/16 12:48:29 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/16 15:04:19 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct		s_piece
 
 t_piece			*new_piece(char ch, short bits);
 void			print_bits(int c, int nb);
-short			align(short piece);
 int				validate(short piece);
 short			conv_piece(char *buf);
 short			get_piece(char *buf);
