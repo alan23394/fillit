@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 16:21:16 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/16 15:04:19 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 11:42:06 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define READ_SIZE	8
 # define BUF_SIZE	128
 # define PIECE_SIZE	21
+# define BITS(cur) (((t_piece *)(cur->content))->piece)
 
 typedef struct		s_piece
 {

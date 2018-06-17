@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/16 15:04:39 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 12:17:18 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ void	print_bits(int c, int nb)
 
 int		validate(short piece)
 {
-	int i;
+	//int i;
 
 	while (!(piece & 0xF000))
 		piece <<= 4;
 	while (!(piece & 0x8888))
 		piece <<= 1;
+	/*
 	ft_putstr("mino numbers:  ");
 	i = 0;
 	while (i < 14)
@@ -54,6 +55,7 @@ int		validate(short piece)
 		++i;
 	}
 	ft_putendl("\b\b");
+	*/
 	return (piece);
 }
 
