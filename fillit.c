@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 13:13:07 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 14:27:54 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ short	get_mino(char *buf)
 	while (buf[i])
 	{
 		if (buf[i] == '#' && ++count)
-			mino = mino | (1 << (15 - (i - (i/5))));
+			mino = mino | (1 << (15 - (i - (i / 5))));
 		else if (buf[i] != '.' && buf[i] != '\n')
 			return (0);
 		else if (buf[i] == '\n' && ((i + 1) % 5 != 0))
@@ -62,4 +62,33 @@ short	get_mino(char *buf)
 		++i;
 	}
 	return ((count != 4 || i != 20) ? 0 : validate(mino));
+}
+
+t_list	*create_list(int fd, char *buf)
+{
+	t_list	*head;
+	t_list	*cur;
+	int		count;
+	short	bits;
+
+	head = ft_lstnew(0, 0);
+	if (!head)
+		return (0);
+	cur = head;
+	count = 0;
+	while (count < 26 && read(fd, buf, MINO_SIZE))
+	{
+		buf[MINO_SIZE - 1] = '\0';
+		bits = get_mino(buf);
+		if (!bits)
+			return (0);
+		cur->content = new_mino('A' + count, bits);
+		if (!cur->content)
+			return (0);
+		count++;
+		cur->content_size = sizeof(cur->content);
+		cur->next = ft_lstnew(0, 0);
+		cur = cur->next;
+	}
+	return (head);
 }
