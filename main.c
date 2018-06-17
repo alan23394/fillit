@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 12:22:31 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 12:36:26 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ t_list	*create_list(int fd, char *buf)
 		return (0);
 	cur = head;
 	count = 0;
-	while (count < 26 && read(fd, buf, PIECE_SIZE))
+	while (count < 26 && read(fd, buf, MINO_SIZE))
 	{
-		buf[PIECE_SIZE - 1] = '\0';
-		bits = get_piece(buf);
+		buf[MINO_SIZE - 1] = '\0';
+		bits = get_mino(buf);
 		if (bits)
 		{
-			cur->content = new_piece('A' + count, bits);
+			cur->content = new_mino('A' + count, bits);
 			if (cur->content)
 				count++;
 			else
@@ -65,7 +65,7 @@ int		main(int argc, char **argv)
 		ft_putendl("usage: ./fillit file.fillit");
 		return (0);
 	}
-	buf = ft_strnew(BUF_SIZE);
+	buf = ft_strnew(MINO_SIZE + 1);
 	fd = open(argv[1], O_RDONLY);
 	head = create_list(fd, buf);
 	if (!head)
