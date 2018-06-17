@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 12:48:39 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 12:51:01 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ short	get_mino(char *buf)
 	while (buf[i])
 	{
 		if (buf[i] == '#' && ++count)
-		{	
 			mino = mino | (1 << (15 - (i - (i/5))));
-		}
 		else if (buf[i] != '.' && buf[i] != '\n')
 			return (0);
 		else if (buf[i] == '\n' && ((i + 1) % 5 != 0))
