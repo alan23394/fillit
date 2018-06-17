@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 12:36:26 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 13:13:07 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,6 @@ t_list	*create_list(int fd, char *buf)
 			return (0);
 	}
 	return (head);
-}
-
-void	print_item(t_list *elem)
-{
-	if (elem->content)
-		print_bits(BITS(elem), 16);
-	ft_putchar('\n');
 }
 
 int		main(int argc, char **argv)

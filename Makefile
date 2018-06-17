@@ -6,7 +6,7 @@
 #    By: abarnett <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/07 12:55:52 by abarnett          #+#    #+#              #
-#    Updated: 2018/06/12 13:57:23 by abarnett         ###   ########.fr        #
+#    Updated: 2018/06/17 13:01:40 by abarnett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,9 @@ clean:
 	@- $(RM) $(C_OBJS)
 
 fclean: clean
-	@- $(RM) $(p_NAME) $(l_NAME) $(L_OBJS)
+	@- $(RM) $(p_NAME)
+
+libclean:
+	@- $(RM) $(l_NAME) $(L_OBJS)
 
 re: fclean all

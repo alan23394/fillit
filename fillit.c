@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 12:51:01 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 13:13:07 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,6 @@ t_mino	*new_mino(char ch, short bits)
 	newmino->c = ch;
 	newmino->mino = bits;
 	return (newmino);
-}
-
-void	print_bits(int c, int nb)
-{
-	if (nb > 1)
-		print_bits(c >> 1, nb - 1);
-	ft_putnbr(c & 1);
-	if (!(nb % 4))
-		ft_putchar(' ');
-}
-
-void	print_numbers(short mino)
-{
-	int i;
-
-	ft_putstr("mino numbers:  ");
-	i = 0;
-	while (i <= 16)
-	{
-		if ((0x8000 >> i) & mino)
-		{
-			ft_putnbr(i + 1);
-			ft_putstr(", ");
-		}
-		++i;
-	}
-	ft_putendl("\b\b");
 }
 
 short	validate(short mino)
