@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 16:21:16 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 14:27:54 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/17 14:40:47 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct		s_mino
 t_mino				*new_mino(char ch, short bits);
 short				validate(short mino);
 short				get_mino(char *buf);
+t_list				*create_list(int fd, char *buf);
 
 void				print_bits(int c, int nb);
 void				print_numbers(short mino);
