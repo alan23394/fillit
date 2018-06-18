@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   board.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/18 10:05:43 by abarnett         ###   ########.fr       */
+/*   Created: 2018/06/17 15:36:47 by abarnett          #+#    #+#             */
+/*   Updated: 2018/06/18 10:58:12 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+check line
+see if row of piece fits in line
+check below line at the same index if row of piece fits in that line
+keep going until it either can't do it, or all the lines in the piece are checked
+bitwise or each row recursively
+*/
+
 #include "libft.h"
 #include "fillit.h"
-#include <fcntl.h>
 
-int		main(int argc, char **argv)
+void	board_main()
 {
-	char	*buf;
-	int		fd;
-	t_list	*head;
+	uint16_t	board[16];
 
-	if (argc != 2)
-	{
-		ft_putendl("usage: ./fillit file.fillit");
-		return (0);
-	}
-	buf = ft_strnew(MINO_SIZE + 1);
-	fd = open(argv[1], O_RDONLY);
-	head = create_list(fd, buf);
-	if (!head)
-	{
-		ft_putendl("error");
-		return (0);
-	}
-	close(fd);
-	ft_lstiter(head, &print_item);
-	board_main();
-	return (0);
+	for (int i = 0; i < 16; i++)
+		board[i] = 0;
+
+	print_board(board);
 }

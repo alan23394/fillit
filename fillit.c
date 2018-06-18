@@ -6,14 +6,14 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 14:39:15 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/18 11:00:34 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "fillit.h"
 
-t_mino	*new_mino(char ch, short bits)
+t_mino	*new_mino(char ch, uint16_t bits)
 {
 	t_mino	*newmino;
 
@@ -25,7 +25,7 @@ t_mino	*new_mino(char ch, short bits)
 	return (newmino);
 }
 
-short	validate(short mino)
+uint16_t	validate(uint16_t mino)
 {
 	while (!(mino & 0xF000))
 		mino = mino << 4;
@@ -42,11 +42,11 @@ short	validate(short mino)
 	return ((mino == 0x44C0 || mino == 0x2E00) ? mino : 0);
 }
 
-short	get_mino(char *buf)
+uint16_t	get_mino(char *buf)
 {
-	short	mino;
-	int		i;
-	int		count;
+	uint16_t	mino;
+	int			i;
+	int			count;
 
 	mino = 0;
 	i = 0;
@@ -66,10 +66,10 @@ short	get_mino(char *buf)
 
 t_list	*create_list(int fd, char *buf)
 {
-	t_list	*head;
-	t_list	*cur;
-	int		count;
-	short	bits;
+	t_list		*head;
+	t_list		*cur;
+	int			count;
+	uint16_t	bits;
 
 	head = ft_lstnew(0, 0);
 	if (!head)

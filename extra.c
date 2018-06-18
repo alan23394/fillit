@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 13:07:20 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/17 14:08:02 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/18 10:58:10 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ void	print_bits(int c, int nb)
 	if (nb > 1)
 		print_bits(c >> 1, nb - 1);
 	ft_putnbr(c & 1);
-	if (!(nb % 4))
-		ft_putchar(' ');
+	ft_putchar(' ');
 }
 
-void	print_numbers(short mino)
+void	print_numbers(uint16_t mino)
 {
 	int i;
 
@@ -50,3 +49,16 @@ void	print_item(t_list *elem)
 	}
 	ft_putchar('\n');
 }
+
+void	print_board(uint16_t board[])
+{
+	int i;
+
+	i = 0;
+	while (i < 16)
+	{
+		print_bits(board[i], 16);
+		ft_putchar('\n');
+		++i;
+	}
+ }
