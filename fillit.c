@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/18 11:00:34 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/18 13:34:45 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_mino	*new_mino(char ch, uint16_t bits)
 		return (0);
 	newmino->c = ch;
 	newmino->mino = bits;
+	newmino->x = 0;
+	newmino->y = 0;
 	return (newmino);
 }
 
@@ -78,7 +80,7 @@ t_list	*create_list(int fd, char *buf)
 	count = 0;
 	while (count < 26 && read(fd, buf, MINO_SIZE))
 	{
-		buf[MINO_SIZE - 1] = '\0';
+		buf[MINO_SIZE - 1] = (buf[20] == '\n' ? '\0' : 0);
 		bits = get_mino(buf);
 		if (!bits)
 			return (0);

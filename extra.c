@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 13:07:20 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/18 10:58:10 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/18 12:48:55 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	print_item(t_list *elem)
 	ft_putchar('\n');
 }
 
-void	print_board(uint16_t board[])
+void	print_map(uint16_t map[])
 {
 	int i;
 
 	i = 0;
 	while (i < 16)
 	{
-		print_bits(board[i], 16);
+		print_bits(map[i], 16);
 		ft_putchar('\n');
 		++i;
 	}

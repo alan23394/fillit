@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/18 10:05:43 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/18 12:49:36 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	close(fd);
-	ft_lstiter(head, &print_item);
-	board_main();
+	//ft_lstiter(head, &print_item);
+	map_main(head);
 	return (0);
 }
