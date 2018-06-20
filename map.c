@@ -31,79 +31,75 @@ void	place_mino(uint16_t map[], t_list *mino)
 		*map++ ^= R(i, mino) >> X(mino);
 }
 
+/*
+** Right now, this function needs to check for the width of a piece
+** to make sure it doesn't place it off the edge of the board.
+*/
 int		find_spot(uint16_t map[], t_list *mino, int row)
 {
-	/*
-	if (!map)
-		return (-1);
-	if (i >= 16)
-		find_spot(map + 1, mino, 0, 0);
-	if (row == 0)
-	{
-		if ((*map ^ (R(row, mino) >> i)) > *map)
-			return (find_spot(map + 1, mino, i, row + 1));
-		find_spot(map, mino, i + 1, row);
-	}
-	if ((*map ^ (R(row, mino) >> i)) > *map)
-		return (find_spot(map + 1, mino, i, row + 1));
-	else
-		
-	return (1);
-
-	if (!map)
+	if (!map || Y(mino) >= 16)
 		return (-1);
 	if (X(mino) >= 16)
 	{
+		ft_putstr("going up to line: ");
 		Y(mino)++;
+		ft_putnbr(Y(mino));
+		ft_putchar('\n');
+		ft_putstr("line bits: ");
+		print_bits(*(map + Y(mino)), 16);
+		ft_putchar('\n');
 		X(mino) = 0;
-		return (find_spot(map, mino, row));
+		return (find_spot(map, mino, 0));
 	}
-	if (row >= 4)
-		return (1);
 	if (row == 0)
 	{
-		if ((*(map + Y(mino)) ^ (R(row, mino) >> X(mino))) > *map)
+		if (XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
 		{
-			Y(mino)++;
-			if (find_spot(map, mino, row + 1) == 1)
-				return (1);
+			ft_putendl("going in here");
+			if (find_spot(map + 1, mino, row + 1))
+			{
+				ft_putendl("further in here");
+				return (find_spot(map + 1, mino, row + 1));
+			}
 		}
+		ft_putstr("skipping x: ");
+		ft_putnbr(X(mino));
+		ft_putstr(" y: ");
+		ft_putnbr(Y(mino));
+		ft_putchar('\n');
 		X(mino)++;
 		return (find_spot(map, mino, row));
 	}
-	if ((*(map + Y(mino)) ^ (R(row, mino) >> X(mino))) > *map)
-		return (find_spot(map, mino, row + 1));
-	return (0);
-	*/
-	if (!map)
-		return (-1);
-	if (X(mino) >= 16)
+	if (row < 4 && XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
 	{
-		Y(mino)++;
-		X(mino) = 0;
-		return (find_spot(map, mino, row));
+		ft_putstr("row: ");
+		ft_putnbr(row);
+		ft_putchar('\n');
+		return (find_spot(map + 1, mino, row + 1));
 	}
-	if (row == 0)
-	{
-		while (X(mino) > 16)
-		{
-			if ((*(map + Y(mino)) ^ (R(row, mino) >> X(mino))) > *map)
-			{
-				Y(mino)++;
-				if (find_spot(map, mino, row + 1) == 1)
-					return (1);
-			}
-			X(mino)++;
-		}
-	}
+	else
+		return (XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))));
 }
 
 void	fill_map(uint16_t map[], t_list *head)
 {
-	place_mino(map, head);
-	print_map(map);
-	ft_putchar('\n');
-	place_mino(map, head);
+	int i;
+
+	i = 1;
+	while (head->content && find_spot(map, head, 0) != -1)
+	{
+		ft_putstr("piece ");
+		ft_putnbr(i);
+		ft_putchar('\n');
+		ft_putnbr(X(head));
+		ft_putstr(", ");
+		ft_putnbr(Y(head));
+		ft_putchar('\n');
+		place_mino(map, head);
+		print_map(map);
+		head = head->next;
+		i++;
+	}
 }
 
 void	map_main(t_list *head)
@@ -112,19 +108,7 @@ void	map_main(t_list *head)
 
 	ft_bzero(map, sizeof(uint16_t) * 16);
 
-	//fill_map(map, head);
-	X(head) = 4;
-	Y(head) = 4;
-	X(head->next->next) = 11;
-	Y(head->next->next) = 10;
-	X(head->next->next->next) = 10;
-	Y(head->next->next->next) = 10;
-	place_mino(map, head);
-	place_mino(map, head->next);
-	place_mino(map, head->next->next);
-	place_mino(map, head->next->next->next);
-	ft_putnbr(find_spot(map, head, 0, 0));
-	ft_putchar('\n');
+	fill_map(map, head);
 
 	print_map(map);
  }

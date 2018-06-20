@@ -21,6 +21,7 @@
 # define CHAR(cur) (((t_mino *)(cur->content))->c)
 # define X(cur) (((t_mino *)(cur->content))->x)
 # define Y(cur) (((t_mino *)(cur->content))->y)
+# define XOROR(a, b) ((a ^ b) == (a | b))
 
 typedef struct		s_mino
 {

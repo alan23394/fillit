@@ -28,7 +28,7 @@ $(l_NAME): $(L_OBJS)
 	ranlib $(l_NAME)
 
 $(p_NAME): $(C_OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(p_NAME) $(C_OBJS)
+	$(CC) $(CFLAGS) -o $(p_NAME) $(C_OBJS) $(LDFLAGS)
 
 clean:
 	@- $(RM) $(C_OBJS)
