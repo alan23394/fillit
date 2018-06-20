@@ -49,7 +49,7 @@ int		find_spot(uint16_t map[], t_list *mino, int row)
 	else
 		
 	return (1);
-	*/
+
 	if (!map)
 		return (-1);
 	if (X(mino) >= 16)
@@ -59,6 +59,7 @@ int		find_spot(uint16_t map[], t_list *mino, int row)
 		return (find_spot(map, mino, row));
 	}
 	if (row >= 4)
+		return (1);
 	if (row == 0)
 	{
 		if ((*(map + Y(mino)) ^ (R(row, mino) >> X(mino))) > *map)
@@ -69,6 +70,31 @@ int		find_spot(uint16_t map[], t_list *mino, int row)
 		}
 		X(mino)++;
 		return (find_spot(map, mino, row));
+	}
+	if ((*(map + Y(mino)) ^ (R(row, mino) >> X(mino))) > *map)
+		return (find_spot(map, mino, row + 1));
+	return (0);
+	*/
+	if (!map)
+		return (-1);
+	if (X(mino) >= 16)
+	{
+		Y(mino)++;
+		X(mino) = 0;
+		return (find_spot(map, mino, row));
+	}
+	if (row == 0)
+	{
+		while (X(mino) > 16)
+		{
+			if ((*(map + Y(mino)) ^ (R(row, mino) >> X(mino))) > *map)
+			{
+				Y(mino)++;
+				if (find_spot(map, mino, row + 1) == 1)
+					return (1);
+			}
+			X(mino)++;
+		}
 	}
 }
 

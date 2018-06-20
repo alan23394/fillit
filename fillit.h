@@ -13,6 +13,8 @@
 #ifndef FILLIT_H
 # define FILLIT_H
 
+# define uint16_t u_int16_t
+# define uint8_t char
 # define MINO_SIZE 21
 # define R(i, cur) ((BITS(cur) & (0xF000 >> (i * 4))) << (i * 4))
 # define BITS(cur) (((t_mino *)(cur->content))->mino)
