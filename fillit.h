@@ -51,8 +51,9 @@ void				print_map(uint16_t map[]);
 **	Map
 */
 void				place_mino(uint16_t map[], t_list *mino);
-int					find_spot(uint16_t map[], t_list *mino, int row);
-void				fill_map(uint16_t map[], t_list *head);
+int					find_spot(uint16_t map[], int size, t_list *mino, int row);
+void				fill_map(uint16_t map[], int *size, t_list *head);
+int					ft_lstlen(t_list *head);
 void				map_main(t_list *head);
 
 #endif
