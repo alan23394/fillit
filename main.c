@@ -22,7 +22,7 @@ int		main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putendl("usage: ./fillit file.fillit");
+		ft_putendl("usage: ./fillit [input file]");
 		return (0);
 	}
 	buf = ft_strnew(MINO_SIZE + 1);
@@ -34,7 +34,8 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	close(fd);
-	//ft_lstiter(head, &print_item);
 	map_main(head);
+	ft_putchar('\n');
+	ft_lstiter(head, &print_item);
 	return (0);
 }

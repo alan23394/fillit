@@ -44,8 +44,12 @@ void	print_item(t_list *elem)
 	if (elem->content)
 	{
 		print_bits(BITS(elem), 16);
-		ft_putstr(" ");
+		ft_putstr(", c: ");
 		ft_putchar(CHAR(elem));
+		ft_putstr(", x: ");
+		ft_putnbr(X(elem));
+		ft_putstr(", y: ");
+		ft_putnbr(Y(elem));
 	}
 	ft_putchar('\n');
 }

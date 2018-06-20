@@ -21,6 +21,8 @@
 # define CHAR(cur) (((t_mino *)(cur->content))->c)
 # define X(cur) (((t_mino *)(cur->content))->x)
 # define Y(cur) (((t_mino *)(cur->content))->y)
+# define LAST(cur) (((t_mino *)(cur->content))->last)
+# define CORD(cur) ((Y(cur) * 10) + X(cur))
 # define XOROR(a, b) ((a ^ b) == (a | b))
 
 typedef struct		s_mino
@@ -29,6 +31,7 @@ typedef struct		s_mino
 	uint16_t		mino;
 	uint8_t			x;
 	uint8_t			y;
+	int				last;
 }					t_mino;
 
 /*
@@ -52,7 +55,7 @@ void				print_map(uint16_t map[]);
 */
 void				place_mino(uint16_t map[], t_list *mino);
 int					find_spot(uint16_t map[], int size, t_list *mino, int row);
-void				fill_map(uint16_t map[], int *size, t_list *head);
+int					fill_map(uint16_t map[], int *size, t_list *head);
 int					ft_lstlen(t_list *head);
 void				map_main(t_list *head);
 

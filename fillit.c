@@ -24,6 +24,7 @@ t_mino	*new_mino(char ch, uint16_t bits)
 	newmino->mino = bits;
 	newmino->x = 0;
 	newmino->y = 0;
+	newmino->last = -1;
 	return (newmino);
 }
 
