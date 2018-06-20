@@ -36,6 +36,6 @@ int		main(int argc, char **argv)
 	close(fd);
 	map_main(head);
 	ft_putchar('\n');
-	ft_lstiter(head, &print_item);
+	//ft_lstiter(head, &print_item);
 	return (0);
 }

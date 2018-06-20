@@ -170,6 +170,8 @@ void	map_main(t_list *head)
 		else
 			break;
 	}
+	if (size >= 16)
+		ft_putendl("error");
 	ft_putnbr(size);
 	ft_putchar('\n');
 	print_map(map);
