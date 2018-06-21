@@ -44,11 +44,12 @@ int		find_spot(uint16_t map[], int size, t_list *mino, int row)
 	ft_putnbr(row);
 	ft_putchar('\n');
 	*/
-	if (LAST(mino) == Y(mino) * 10 + X(mino))
-		X(mino)++;
 	if (!map || (((Y(mino) + row) >= size) && (R(row, mino) > 0)))
 		return (-1);
-	if (X(mino) >= (size - 3) && (BITS(mino) & (0x1111 << ((X(mino) - (size - 3))))))
+	if (LAST(mino) == CORD(mino, size))
+		++X(mino);
+	if (X(mino) >= (size - 3) &&
+		(BITS(mino) & (0x1111 << ((X(mino) - (size - 3))))))
 	{
 		/*
 		ft_putstr("going up to line: ");
@@ -59,7 +60,7 @@ int		find_spot(uint16_t map[], int size, t_list *mino, int row)
 		print_bits(*(map + Y(mino)), 16);
 		ft_putchar('\n');
 		*/
-		Y(mino)++;
+		++Y(mino);
 		X(mino) = 0;
 		return (find_spot(map, size, mino, 0));
 	}
@@ -86,10 +87,10 @@ int		find_spot(uint16_t map[], int size, t_list *mino, int row)
 		ft_putnbr(X(mino));
 		ft_putchar('\n');
 		*/
-		X(mino)++;
+		++X(mino);
 		return (find_spot(map, size, mino, row));
 	}
-	if (row < 4 && XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
+	if (row < 3 && XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
 	{
 		/*
 		ft_putstr("row: ");
@@ -109,20 +110,18 @@ int		fill_map(uint16_t map[], int *size, t_list *cur)
 
 	if (!cur->content)
 		return (1);
+	LAST(cur) = -1;
+	X(cur) = 0;
+	Y(cur) = 0;
 	i = find_spot(map, *size, cur, 0);
 	ret = 0;
 	while (i == 1)
 	{
 		if (cur->content && i != -1)
 		{
-			LAST(cur) = CORD(cur);
+			LAST(cur) = CORD(cur, *size);
 			place_mino(map, cur);
-			if (cur->next->content)
-			{
-				LAST(cur->next) = -1;
-				X(cur->next) = 0;
-				Y(cur->next) = 0;
-			}
+			//print_map(map);
 			ret = fill_map(map, size, cur->next);
 			if (ret)
 				return (ret);
@@ -170,7 +169,7 @@ void	map_main(t_list *head)
 		else
 			break;
 	}
-	if (size >= 16)
+	if (size > 16)
 		ft_putendl("error");
 	ft_putnbr(size);
 	ft_putchar('\n');

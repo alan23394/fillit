@@ -22,7 +22,7 @@
 # define X(cur) (((t_mino *)(cur->content))->x)
 # define Y(cur) (((t_mino *)(cur->content))->y)
 # define LAST(cur) (((t_mino *)(cur->content))->last)
-# define CORD(cur) ((Y(cur) * 10) + X(cur))
+# define CORD(cur, size) ((Y(cur) * size) + X(cur))
 # define XOROR(a, b) ((a ^ b) == (a | b))
 
 typedef struct		s_mino
