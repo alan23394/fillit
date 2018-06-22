@@ -22,19 +22,19 @@ int		main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putendl("usage: ./fillit file.fillit");
+		ft_putendl("usage: ./fillit [input file]");
 		return (0);
 	}
 	buf = ft_strnew(MINO_SIZE + 1);
 	fd = open(argv[1], O_RDONLY);
 	head = create_list(fd, buf);
+	close(fd);
 	if (!head)
 	{
 		ft_putendl("error");
 		return (0);
 	}
-	close(fd);
-	//ft_lstiter(head, &print_item);
 	map_main(head);
+	//ft_lstiter(head, &print_item);
 	return (0);
 }
