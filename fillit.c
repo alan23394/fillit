@@ -13,21 +13,6 @@
 #include "libft.h"
 #include "fillit.h"
 
-t_mino	*new_mino(char ch, uint16_t bits)
-{
-	t_mino	*newmino;
-
-	newmino = (t_mino *)ft_memalloc(sizeof(t_mino));
-	if (!newmino)
-		return (0);
-	newmino->c = ch;
-	newmino->mino = bits;
-	newmino->x = 0;
-	newmino->y = 0;
-	newmino->last = -1;
-	return (newmino);
-}
-
 void	print_map(t_list *list, int size)
 {
 	char	*s;
@@ -56,70 +41,87 @@ void	print_map(t_list *list, int size)
 	ft_putendl(s);
 }
 
-uint16_t	validate(uint16_t mino)
+void	place_mino(uint16_t map[], t_list *mino)
 {
-	while (!(mino & 0xF000))
-		mino = mino << 4;
-	while (!(mino & 0x8888))
-		mino = mino << 1;
-	if ((mino & 0xE000) == 0xE000)
-		return ((mino & 0x1E00) ? mino : 0);
-	if ((mino & 0x8000) == 0x8000)
-		return ((mino & 0x4448) ? mino : 0);
-	if ((mino & 0x4C00) == 0x4C00)
-		return ((mino & 0xA2C0) ? mino : 0);
-	if ((mino & 0x8400) == 0x8400 && !(mino ^ 0x8640))
-		return ((mino & 0x31BF) ? 0 : mino);
-	return ((mino == 0x44C0 || mino == 0x2E00) ? mino : 0);
+	int i;
+
+	i = -1;
+	map += Y(mino);
+	while (++i < 4)
+		*map++ ^= R(i, mino) >> X(mino);
 }
 
-uint16_t	get_mino(char *buf)
+int		find_spot(uint16_t map[], int size, t_list *mino, int row)
 {
-	uint16_t	mino;
-	int			i;
-	int			count;
-
-	mino = 0;
-	i = 0;
-	count = 0;
-	while (buf[i])
+	if (!map || (((Y(mino) + row) >= size) && (R(row, mino) > 0)))
+		return (-1);
+	if (LAST(mino) == CORD(mino, size))
+		++X(mino);
+	if (X(mino) >= (size - 3) &&
+		(BITS(mino) & (0x1111 << ((X(mino) - (size - 3))))))
 	{
-		if (buf[i] == '#' && ++count)
-			mino = mino | (1 << (15 - (i - (i / 5))));
-		else if (buf[i] != '.' && buf[i] != '\n')
-			return (0);
-		else if (buf[i] == '\n' && ((i + 1) % 5 != 0))
-			return (0);
-		++i;
+		++Y(mino);
+		X(mino) = 0;
+		return (find_spot(map, size, mino, 0));
 	}
-	return ((count != 4 || i != 20) ? 0 : validate(mino));
+	if (row == 0)
+	{
+		if (XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
+			if (find_spot(map + 1, size, mino, row + 1))
+				return (find_spot(map + 1, size, mino, row + 1));
+		++X(mino);
+		return (find_spot(map, size, mino, row));
+	}
+	if (row < 3 && XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
+		return (find_spot(map + 1, size, mino, row + 1));
+	else
+		return (XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))));
 }
 
-t_list	*create_list(int fd, char *buf)
+int		fill_map(uint16_t map[], int *size, t_list *cur)
 {
-	t_list		*head;
-	t_list		*cur;
-	int			count;
-	uint16_t	bits;
+	int	i;
 
-	head = ft_lstnew(0, 0);
-	if (!head)
-		return (0);
-	cur = head;
-	count = 0;
-	while (count < 26 && read(fd, buf, MINO_SIZE))
+	if (!cur->content)
+		return (1);
+	LAST(cur) = -1;
+	X(cur) = 0;
+	Y(cur) = 0;
+	i = find_spot(map, *size, cur, 0);
+	while (i == 1)
 	{
-		buf[MINO_SIZE - 1] = (buf[20] == '\n' ? '\0' : 0);
-		bits = get_mino(buf);
-		if (!bits)
-			return (0);
-		cur->content = new_mino('A' + count, bits);
-		if (!cur->content)
-			return (0);
-		count++;
-		cur->content_size = sizeof(cur->content);
-		cur->next = ft_lstnew(0, 0);
-		cur = cur->next;
+		if (cur->content && i != -1)
+		{
+			LAST(cur) = CORD(cur, *size);
+			place_mino(map, cur);
+			if (fill_map(map, size, cur->next))
+				return (1);
+			place_mino(map, cur);
+		}
+		i = find_spot(map, *size, cur, 0);
 	}
-	return (head);
+	return (0);
+}
+
+void	map_main(t_list *head)
+{
+	uint16_t	map[16];
+	int			count;
+	int			size;
+
+	ft_bzero(map, sizeof(uint16_t) * 16);
+	count = ft_lstlen(head);
+	size = 2;
+	while (size * size < count * 4)
+		++size;
+	while (size <= 16)
+	{
+		if (!fill_map(map, &size, head))
+			++size;
+		else
+			break;
+	}
+	if (size > 16)
+		ft_putendl("error");
+	print_map(head, size);
 }

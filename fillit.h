@@ -24,7 +24,6 @@
 # define LAST(cur) (((t_mino *)(cur->content))->last)
 # define CORD(cur, size) ((Y(cur) * size) + X(cur))
 # define XOROR(a, b) ((a ^ b) == (a | b))
-# define CORD(cur, size) ((Y(cur) * size) + X(cur))
 
 typedef struct		s_mino
 {
@@ -35,30 +34,11 @@ typedef struct		s_mino
 	int				last;
 }					t_mino;
 
-/*
-**	Fillit
-*/
-t_mino				*new_mino(char ch, uint16_t bits);
-uint16_t			validate(uint16_t mino);
-uint16_t			get_mino(char *buf);
-t_list				*create_list(int fd, char *buf);
 void				print_map(t_list *list, int size);
-
-/*
-**	Extra
-*/
-//void				print_bits(int c, int nb);
-//void				print_numbers(uint16_t mino);
-//void				print_item(t_list *elem);
-//void				print_mab(uint16_t map[]);
-char				*ft_strinit(size_t size, int c);
-/*
-**	Map
-*/
 void				place_mino(uint16_t map[], t_list *mino);
 int					find_spot(uint16_t map[], int size, t_list *mino, int row);
 int					fill_map(uint16_t map[], int *size, t_list *head);
-int					ft_lstlen(t_list *head);
 void				map_main(t_list *head);
+
 
 #endif

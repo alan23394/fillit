@@ -21,7 +21,7 @@ LDFLAGS += -L./ -lft
 .PHONY: all clean fclean re
 
 all: $(l_NAME) $(p_NAME)
-	./$(p_NAME) sample.fillit
+	./$(p_NAME) fillit.files/sample.fillit
 
 $(l_NAME): $(L_OBJS)
 	ar rc $(l_NAME) $(L_OBJS)
