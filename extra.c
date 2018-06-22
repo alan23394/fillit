@@ -13,6 +13,12 @@
 #include "libft.h"
 #include "fillit.h"
 
+char	*ft_strinit(size_t size, int c)
+{
+	return ((char *)ft_nmemset(malloc(size + 1), c, size + 1));
+}
+
+/*
 void	print_bits(int c, int nb)
 {
 	if (nb > 1)
@@ -50,7 +56,7 @@ void	print_item(t_list *elem)
 	ft_putchar('\n');
 }
 
-void	print_map(uint16_t map[])
+void	print_mab(uint16_t map[])
 {
 	int i;
 
@@ -62,3 +68,4 @@ void	print_map(uint16_t map[])
 		++i;
 	}
  }
+*/

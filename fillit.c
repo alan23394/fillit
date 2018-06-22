@@ -27,6 +27,34 @@ t_mino	*new_mino(char ch, uint16_t bits)
 	return (newmino);
 }
 
+void	print_map(t_list *list, int size)
+{
+	char	*s;
+	int		row;
+	int		i;	
+	
+	s = ft_strinit(sizeof(char) * size * (size + 1), '.');
+	row = size;
+	s[((size + 1) * row) - 1] = '\0';
+	while (--row)
+		s[((size + 1) * row) - 1] = '\n';
+	while (list->content)
+	{
+		row = 0;
+		i = 16;
+		while (i--)
+		{
+			if ((BITS(list) >> i) & 0x0001)
+				s[(Y(list) + row) * (size + 1) + X(list) + 
+				((15 - i) % 4)] = CHAR(list);
+			if ((16 - i) % 4  == 0)
+				++row;
+		}
+		list = list->next;
+	}
+	ft_putendl(s);
+}
+
 uint16_t	validate(uint16_t mino)
 {
 	while (!(mino & 0xF000))

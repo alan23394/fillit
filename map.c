@@ -33,55 +33,55 @@ void	place_mino(uint16_t map[], t_list *mino)
 
 int		find_spot(uint16_t map[], int size, t_list *mino, int row)
 {
-	ft_putstr("size: ");
-	ft_putnbr(size);
-	ft_putstr(" | Y: ");
-	ft_putnbr(Y(mino));
-	ft_putstr(" | row: ");
-	ft_putnbr(row);
-	ft_putchar('\n');
+//	ft_putstr("size: ");
+//	ft_putnbr(size);
+//	ft_putstr(" | Y: ");
+//	ft_putnbr(Y(mino));
+//	ft_putstr(" | row: ");
+//	ft_putnbr(row);
+//	ft_putchar('\n');
 	if (!map || (((Y(mino)  + row) >= size) && (R(row, mino) > 0)))
 		return (-1);
 	if (X(mino) >= (size - 3) && (BITS(mino) & (0x1111 << ((X(mino) - (size - 3))))))
 	{
-		ft_putstr("going up to line: ");
+//		ft_putstr("going up to line: ");
 		Y(mino)++;
-		ft_putnbr(Y(mino));
-		ft_putchar('\n');
-		ft_putstr("line bits: ");
-		print_bits(*(map + Y(mino)), 16);
-		ft_putchar('\n');
+//		ft_putnbr(Y(mino));
+//		ft_putchar('\n');
+//		ft_putstr("line bits: ");
+//		print_bits(*(map + Y(mino)), 16);
+//		ft_putchar('\n');
 		X(mino) = 0;
 		return (find_spot(map, size, mino, 0));
 	}
 	if (row == 0)
 	{
-		ft_putendl("here");
+//		ft_putendl("here");
 		if (XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
 		{
-			ft_putendl("going in here");
+//			ft_putendl("going in here");
 			if (find_spot(map + 1, size, mino, row + 1))
 			{
-				ft_putendl("further in here");
+//				ft_putendl("further in here");
 				return (find_spot(map + 1, size, mino, row + 1));
 			}
 		}
-		ft_putstr("skipping x: ");
-		ft_putnbr(X(mino));
-		ft_putstr(" y: ");
-		ft_putnbr(Y(mino));
-		ft_putchar('\n');
+//		ft_putstr("skipping x: ");
+//		ft_putnbr(X(mino));
+//		ft_putstr(" y: ");
+//		ft_putnbr(Y(mino));
+//		ft_putchar('\n');
 		X(mino)++;
-		ft_putstr("onto x: ");
-		ft_putnbr(X(mino));
-		ft_putchar('\n');
+//		ft_putstr("onto x: ");
+//		ft_putnbr(X(mino));
+//		ft_putchar('\n');
 		return (find_spot(map, size, mino, row));
 	}
 	if (row < 4 && XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))))
 	{
-		ft_putstr("row: ");
-		ft_putnbr(row);
-		ft_putchar('\n');
+//		ft_putstr("row: ");
+//		ft_putnbr(row);
+//		ft_putchar('\n');
 		return (find_spot(map + 1, size, mino, row + 1));
 	}
 	else
@@ -99,15 +99,15 @@ void	fill_map(uint16_t map[], int *size, t_list *head)
 	{
 		while (cur->content && find_spot(map, *size, cur, 0) != -1)
 		{
-			ft_putstr("piece ");
-			ft_putnbr(i);
-			ft_putchar('\n');
-			ft_putnbr(X(cur));
-			ft_putstr(", ");
-			ft_putnbr(Y(cur));
-			ft_putchar('\n');
+//			ft_putstr("piece ");
+//			ft_putnbr(i);
+//			ft_putchar('\n');
+//			ft_putnbr(X(cur));
+//			ft_putstr(", ");
+//			ft_putnbr(Y(cur));
+//			ft_putchar('\n');
 			place_mino(map, cur);
-			print_map(map);
+//			print_map(map);
 			cur = cur->next;
 			i++;
 		}
@@ -143,18 +143,17 @@ void	map_main(t_list *head)
 
 	count = ft_lstlen(head);
 	size = 2;
-	ft_putnbr(count);
-	ft_putchar('\n');
-	ft_putnbr(count * 4);
-	ft_putchar('\n');
+//	ft_putnbr(count);
+//	ft_putchar('\n');
+//	ft_putnbr(count * 4);
+//	ft_putchar('\n');
 	while (size * size <= count * 4)
-		size++;
-	size--;
-	ft_putnbr(size);
-	ft_putchar('\n');
+		++size;
+	--size;
+//	ft_putnbr(size);
+//	ft_putchar('\n');
 	fill_map(map, &size, head);
-	ft_putnbr(size);
-	ft_putchar('\n');
-
-	print_map(map);
+//	ft_putnbr(size);
+//	ft_putchar('\n');
+	print_map(head, size);
  }
