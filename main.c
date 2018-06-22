@@ -68,28 +68,28 @@ uint16_t	get_mino(char *buf)
 	return ((count != 4 || i != 20) ? 0 : validate(mino));
 }
 
-t_list	*create_list(int fd, char *buf)
+t_list	*create_list(int fd, char *buf, int *prev_read)
 {
 	t_list		*head;
 	t_list		*cur;
 	int			count;
 	uint16_t	bits;
+	int			ret;
 
 	head = ft_lstnew(0, 0);
 	if (!head)
 		return (0);
 	cur = head;
 	count = 0;
-	while (count < 26 && read(fd, buf, MINO_SIZE))
+	while (count < 26 && (ret = read(fd, buf, MINO_SIZE)) != 0)
 	{
+		*prev_read = ret;
 		buf[MINO_SIZE - 1] = (buf[20] == '\n' ? '\0' : 0);
 		bits = get_mino(buf);
-		if (!bits)
-			return (0);
 		cur->content = new_mino('A' + count, bits);
-		if (!cur->content)
+		if (!cur->content || !bits)
 			return (0);
-		count++;
+		++count;
 		cur->content_size = sizeof(cur->content);
 		cur->next = ft_lstnew(0, 0);
 		cur = cur->next;
@@ -102,6 +102,7 @@ int		main(int argc, char **argv)
 	char	*buf;
 	int		fd;
 	t_list	*head;
+	int		prev_read;
 
 	if (argc != 2)
 	{
@@ -109,10 +110,11 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	buf = ft_strnew(MINO_SIZE + 1);
+	prev_read = 0;
 	fd = open(argv[1], O_RDONLY);
-	head = create_list(fd, buf);
+	head = create_list(fd, buf, &prev_read);
 	close(fd);
-	if (!head)
+	if (!head || !head->content || prev_read != 20)
 	{
 		ft_putendl("error");
 		return (0);
