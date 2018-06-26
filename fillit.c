@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/18 13:34:45 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/22 11:06:04 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	print_map(t_list *list, int size)
 {
 	char	*s;
 	int		row;
-	int		i;	
-	
+	int		i;
+
 	s = ft_strinit(sizeof(char) * size * (size + 1), '.');
 	row = size;
 	s[((size + 1) * row) - 1] = '\0';
@@ -31,9 +31,9 @@ void	print_map(t_list *list, int size)
 		while (i--)
 		{
 			if ((BITS(list) >> i) & 0x0001)
-				s[(Y(list) + row) * (size + 1) + X(list) + 
+				s[(Y(list) + row) * (size + 1) + X(list) +
 				((15 - i) % 4)] = CHAR(list);
-			if ((16 - i) % 4  == 0)
+			if ((16 - i) % 4 == 0)
 				++row;
 		}
 		list = list->next;
@@ -119,7 +119,7 @@ void	map_main(t_list *head)
 		if (!fill_map(map, &size, head))
 			++size;
 		else
-			break;
+			break ;
 	}
 	if (size > 16)
 		ft_putendl("error");

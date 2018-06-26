@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/18 12:49:36 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/22 11:06:29 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "fillit.h"
 #include <fcntl.h>
 
-t_mino	*new_mino(char ch, uint16_t bits)
+t_mino		*new_mino(char ch, uint16_t bits)
 {
 	t_mino	*newmino;
 
@@ -37,11 +37,11 @@ uint16_t	validate(uint16_t mino)
 		mino = mino << 1;
 	if ((mino & 0xE000) == 0xE000)
 		return ((mino & 0x1E00) ? mino : 0);
-	if ((mino & 0x8000) == 0x8000)
+	if ((mino & 0x8880) == 0x8880)
 		return ((mino & 0x4448) ? mino : 0);
 	if ((mino & 0x4C00) == 0x4C00)
 		return ((mino & 0xA2C0) ? mino : 0);
-	if ((mino & 0x8400) == 0x8400 && !(mino ^ 0x8640))
+	if (((mino & 0x8400) == 0x8400) && (mino != 0x8640))
 		return ((mino & 0x31BF) ? 0 : mino);
 	return ((mino == 0x44C0 || mino == 0x2E00) ? mino : 0);
 }
@@ -68,7 +68,7 @@ uint16_t	get_mino(char *buf)
 	return ((count != 4 || i != 20) ? 0 : validate(mino));
 }
 
-t_list	*create_list(int fd, char *buf, int *prev_read)
+t_list		*create_list(int fd, char *buf, int *prev_read)
 {
 	t_list		*head;
 	t_list		*cur;
@@ -97,7 +97,7 @@ t_list	*create_list(int fd, char *buf, int *prev_read)
 	return (head);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	char	*buf;
 	int		fd;
