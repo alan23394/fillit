@@ -106,7 +106,7 @@ int			main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putendl("usage: ./fillit [input file]");
+		ft_putendl("usage: ./fillit <file>");
 		return (0);
 	}
 	buf = ft_strnew(MINO_SIZE + 1);
