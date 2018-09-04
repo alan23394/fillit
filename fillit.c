@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/22 11:06:04 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/22 12:25:04 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,24 @@ int		find_spot(uint16_t map[], int size, t_list *mino, int row)
 		return (XOROR(*(map + Y(mino)), (R(row, mino) >> X(mino))));
 }
 
-int		fill_map(uint16_t map[], int *size, t_list *cur)
+int		fill_map(uint16_t map[], int size, t_list *cur)
 {
-	int	i;
+	int	fit;
 
 	if (!cur->content)
 		return (1);
 	LAST(cur) = -1;
 	X(cur) = 0;
 	Y(cur) = 0;
-	i = find_spot(map, *size, cur, 0);
-	while (i == 1)
+	fit = find_spot(map, size, cur, 0);
+	while (fit == 1)
 	{
-		if (cur->content && i != -1)
-		{
-			LAST(cur) = CORD(cur, *size);
-			place_mino(map, cur);
-			if (fill_map(map, size, cur->next))
-				return (1);
-			place_mino(map, cur);
-		}
-		i = find_spot(map, *size, cur, 0);
+		LAST(cur) = CORD(cur, size);
+		place_mino(map, cur);
+		if (fill_map(map, size, cur->next))
+			return (1);
+		place_mino(map, cur);
+		fit = find_spot(map, size, cur, 0);
 	}
 	return (0);
 }
@@ -116,7 +113,7 @@ void	map_main(t_list *head)
 		++size;
 	while (size <= 16)
 	{
-		if (!fill_map(map, &size, head))
+		if (!fill_map(map, size, head))
 			++size;
 		else
 			break ;

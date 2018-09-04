@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/22 11:06:29 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/06/26 11:49:32 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,16 @@ t_list		*create_list(int fd, char *buf, int *prev_read)
 	t_list		*cur;
 	int			count;
 	uint16_t	bits;
-	int			ret;
+	int			bytes;
 
 	head = ft_lstnew(0, 0);
 	if (!head)
 		return (0);
 	cur = head;
 	count = 0;
-	while (count < 26 && (ret = read(fd, buf, MINO_SIZE)) != 0)
+	while (count < 26 && (bytes = read(fd, buf, MINO_SIZE)) != 0)
 	{
-		*prev_read = ret;
+		*prev_read = bytes;
 		buf[MINO_SIZE - 1] = (buf[20] == '\n' ? '\0' : 0);
 		bits = get_mino(buf);
 		cur->content = new_mino('A' + count, bits);
