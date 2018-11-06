@@ -6,7 +6,7 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/07 12:48:31 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/22 12:25:04 by abarnett         ###   ########.fr       */
+/*   Updated: 2018/11/06 14:16:31 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	map_main(t_list *head)
 	int			size;
 
 	ft_bzero(map, sizeof(uint16_t) * 16);
-	count = ft_lstlen(head);
+	count = (int)ft_lstlen(head);
 	size = 2;
 	while (size * size < count * 4)
 		++size;
