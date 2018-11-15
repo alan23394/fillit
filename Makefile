@@ -6,21 +6,21 @@
 #    By: abarnett <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/07 12:55:52 by abarnett          #+#    #+#              #
-#    Updated: 2018/09/03 21:18:07 by abarnett         ###   ########.fr        #
+#    Updated: 2018/11/14 17:36:58 by abarnett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := fillit
-LIB := libft.a
+NAME :=			fillit
+LIB :=			libft.a
 
-C_OBJS := $(patsubst %.c,%.o,$(wildcard ./*.c))
-L_OBJS := $(patsubst %.c,%.o,$(wildcard ./libft/*.c))
-INCLUDE_DIRS := ./libft
+C_OBJS :=		$(patsubst %.c,%.o,$(wildcard ./srcs/*.c))
+L_OBJS :=		$(patsubst %.c,%.o,$(wildcard ./libft/srcs/*.c))
+INCLUDE_DIR :=	./includes
 
-CFLAGS += -Wall -Wextra -Werror -I$(INCLUDE_DIRS)
-LDFLAGS += -L./ -lft
+CFLAGS +=		-Wall -Wextra -Werror -I$(INCLUDE_DIR)
+LDFLAGS +=		-L./ -lft
 
-.PHONY: all clean fclean re
+.PHONY:			all clean fclean re
 
 all: $(NAME)
 
