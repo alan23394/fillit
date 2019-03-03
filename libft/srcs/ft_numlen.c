@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_numlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/14 20:52:19 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/02 15:18:48 by abarnett         ###   ########.fr       */
+/*   Created: 2018/05/26 10:14:30 by abarnett          #+#    #+#             */
+/*   Updated: 2018/11/06 14:34:01 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+size_t		ft_numlen(long num)
 {
-	char	*dup;
+	size_t	length;
 
-	dup = ft_strnew(ft_strlen(s1));
-	return (dup ? ft_strcpy(dup, s1) : 0);
+	length = 1;
+	if (num < 0)
+	{
+		num *= -1;
+		++length;
+	}
+	while (num >= 10)
+	{
+		num /= 10;
+		++length;
+	}
+	return (length);
 }

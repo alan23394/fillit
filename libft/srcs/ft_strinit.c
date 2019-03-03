@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_numlen_base.c                                   :+:      :+:    :+:   */
+/*   ft_strinit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/06 16:23:46 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/06 17:24:01 by abarnett         ###   ########.fr       */
+/*   Created: 2018/06/21 09:33:28 by abarnett          #+#    #+#             */
+/*   Updated: 2018/09/03 22:07:15 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_numlen_base(long num, int base)
+char	*ft_strinit(size_t size, int c)
 {
-	int length;
+	char	*s;
 
-	length = 1;
-	if (num < 0)
-	{
-		num *= -1;
-		++length;
-	}
-	while (num >= base)
-	{
-		num /= base;
-		++length;
-	}
-	return (length);
+	s = (char *)ft_nmemset(malloc(size + 1), c, size + 1);
+	if (s)
+		s[size] = '\0';
+	return (s);
 }
