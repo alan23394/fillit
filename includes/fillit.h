@@ -6,12 +6,14 @@
 /*   By: abarnett <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 16:21:16 by abarnett          #+#    #+#             */
-/*   Updated: 2018/06/22 11:56:58 by abarnett         ###   ########.fr       */
+/*   Updated: 2019/08/09 19:26:48 by abarnett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
+
+# include <stdint.h>
 
 # define MINO_SIZE 21
 # define R(i, cur) ((BITS(cur) & (0xF000 >> (i * 4))) << (i * 4))
